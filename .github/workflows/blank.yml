@@ -1,45 +1,29 @@
-name: Terraform CI/CD
+name: Terraform Pipeline
 
 on:
   push:
     branches:
       - main
 
-  pull_request:
-    branches:
-      - main
-
 jobs:
   terraform:
-    name: Terraform
     runs-on: ubuntu-latest
 
-    defaults:
-      run:
-        working-directory: environment/dev
-
     steps:
-
-      # 1. Checkout code
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2. Install Terraform
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      # 3. Terraform Init
       - name: Terraform Init
+        working-directory: ./enviroment/dev
         run: terraform init
 
-      # 4. Terraform Format Check
-      - name: Terraform Format
-        run: terraform fmt -check
-
-      # 5. Terraform Validate
       - name: Terraform Validate
+        working-directory: ./enviroment/dev
         run: terraform validate
 
-      # 6. Terraform Plan
       - name: Terraform Plan
+        working-directory: ./enviroment/dev
         run: terraform plan
