@@ -1,0 +1,29 @@
+name: Terraform Pipeline
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        working-directory: ./enviroment/dev
+        run: terraform init
+
+      - name: Terraform Validate
+        working-directory: ./enviroment/dev
+        run: terraform validate
+
+      - name: Terraform Plan
+        working-directory: ./enviroment/dev
+        run: terraform plan
